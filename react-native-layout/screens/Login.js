@@ -2,15 +2,16 @@ import {View, Text, TextInput, StyleSheet, TouchableOpacity, Image,} from "react
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function Login() {
+export default function Login({ goToSignup }) {
   return (
     <LinearGradient
       colors={["#667eea", "#764ba2"]}
       style={styles.container}
     >
       <View style={styles.card}>
+        {/* Login Image */}
         <Image
-          source={require("../assets/images/login.png")}
+          source={require("../assets/login.png")}
           style={styles.image}
           resizeMode="contain"
         />
@@ -18,13 +19,13 @@ export default function Login() {
         <Text style={styles.title}>Welcome Back</Text>
         <Text style={styles.subtitle}>Login to continue</Text>
 
-        {/* Email */}
+        {/* Email Input */}
         <View style={styles.inputContainer}>
           <Ionicons name="mail-outline" size={20} color="#667eea" />
           <TextInput placeholder="Email" style={styles.input} />
         </View>
 
-        {/* Password */}
+        {/* Password Input */}
         <View style={styles.inputContainer}>
           <Ionicons name="lock-closed-outline" size={20} color="#667eea" />
           <TextInput
@@ -34,11 +35,19 @@ export default function Login() {
           />
         </View>
 
-        {/* Button */}
+        {/* LOGIN Button */}
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>LOGIN</Text>
           <Ionicons name="arrow-forward" size={18} color="#fff" />
         </TouchableOpacity>
+
+        {/* Sign up link */}
+        <Text style={styles.switchText}>
+          Don’t have an account?{" "}
+          <Text style={styles.linkText} onPress={goToSignup}>
+            Sign up
+          </Text>
+        </Text>
       </View>
     </LinearGradient>
   );
@@ -106,5 +115,17 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
     marginRight: 6,
+  },
+
+  switchText: {
+    textAlign: "center",
+    color: "#fff",
+    marginTop: 18,
+    fontSize: 14,
+  },
+
+  linkText: {
+    color: "#ffd700",
+    fontWeight: "bold",
   },
 });

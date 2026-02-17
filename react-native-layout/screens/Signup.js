@@ -2,7 +2,7 @@ import {View, Text, TextInput, StyleSheet, TouchableOpacity,} from "react-native
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 
-export default function Signup() {
+export default function Signup({ goToLogin }) {
   return (
     <LinearGradient
       colors={["#43cea2", "#185a9d"]}
@@ -11,16 +11,19 @@ export default function Signup() {
       <View style={styles.card}>
         <Text style={styles.title}>Create Account</Text>
 
+        {/* Full Name */}
         <View style={styles.inputContainer}>
           <Ionicons name="person-outline" size={20} color="#43cea2" />
           <TextInput placeholder="Full Name" style={styles.input} />
         </View>
 
+        {/* Email */}
         <View style={styles.inputContainer}>
           <Ionicons name="mail-outline" size={20} color="#43cea2" />
           <TextInput placeholder="Email" style={styles.input} />
         </View>
 
+        {/* Password */}
         <View style={styles.inputContainer}>
           <Ionicons name="lock-closed-outline" size={20} color="#43cea2" />
           <TextInput
@@ -30,10 +33,19 @@ export default function Signup() {
           />
         </View>
 
+        {/* SIGN UP Button */}
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>SIGN UP</Text>
           <Ionicons name="person-add-outline" size={18} color="#fff" />
         </TouchableOpacity>
+
+        {/* Sign in link */}
+        <Text style={styles.switchText}>
+          Already have an account?{" "}
+          <Text style={styles.linkText} onPress={goToLogin}>
+            Sign in
+          </Text>
+        </Text>
       </View>
     </LinearGradient>
   );
@@ -89,5 +101,17 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "bold",
     marginRight: 6,
+  },
+
+  switchText: {
+    textAlign: "center",
+    color: "#fff",
+    marginTop: 18,
+    fontSize: 14,
+  },
+
+  linkText: {
+    color: "#ffd700",
+    fontWeight: "bold",
   },
 });
