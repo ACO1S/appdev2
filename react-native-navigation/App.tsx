@@ -1,64 +1,69 @@
 import * as React from 'react';
-import { View, Text, TextInput } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { Text, View } from 'react-native';
+import {
+  createStaticNavigation,
+  useNavigation,
+} from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Button } from '@react-navigation/elements';
 
-function HomeScreen({ navigation, route }) {
-  React.useEffect(() => {
-    if (route.params?.post) {
-      alert('New post: ' + route.params.post);
-    }
-  }, [route.params?.post]);
+function SettingsScreen({ route }) {
+  const userId = route?.params?.userId;
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Button onPress={() => navigation.navigate('CreatePost')}>
-        Create post
-      </Button>
-
-      <Text style={{ margin: 10 }}>
-        Post: {route.params?.post}
-      </Text>
+      <Text>Settings Screen</Text>
+      <Text>User ID: {JSON.stringify(userId)}</Text>
     </View>
   );
 }
 
-function CreatePostScreen({ navigation }) {
-  const [postText, setPostText] = React.useState('');
+function ProfileScreen() {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Profile Screen</Text>
+    </View>
+  );
+}
+
+function HomeScreen() {
+  const navigation = useNavigation();
 
   return (
-    <View style={{ flex: 1, padding: 20 }}>
-      <TextInput
-        multiline
-        placeholder="What's on your mind?"
-        style={{ height: 200, padding: 10, backgroundColor: 'white' }}
-        value={postText}
-        onChangeText={setPostText}
-      />
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Home Screen</Text>
 
       <Button
-        onPress={() => {
-          navigation.navigate('Home', {
-            post: postText,
-          });
-        }}
+        onPress={() =>
+          navigation.navigate('More', {
+            screen: 'Settings',
+            params: { userId: 'jane' },
+          })
+        }
       >
-        Done
+        Go to Settings
       </Button>
     </View>
   );
 }
 
-const Stack = createNativeStackNavigator();
+const MoreStack = createNativeStackNavigator({
+  screens: {
+    Settings: SettingsScreen,
+    Profile: ProfileScreen,
+  },
+});
+
+const RootTabs = createBottomTabNavigator({
+  screens: {
+    Home: HomeScreen,
+    More: MoreStack,
+  },
+});
+
+const Navigation = createStaticNavigation(RootTabs);
 
 export default function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="CreatePost" component={CreatePostScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+  return <Navigation />;
 }
